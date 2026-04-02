@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+# Wrapper principal del proyecto. Su única responsabilidad es localizar
+# la raíz real del repositorio y delegar la ejecución al script del CLI.
+
+set -u
+
+resolve_script_dir() {
+  local source="${BASH_SOURCE[0]}"
+  local dir=""
+
+  # Resuelve enlaces simbólicos para que el comando siga funcionando
+  # aunque se instale como symlink en ~/.local/bin/stock.
+  while [[ -h "$source" ]]; do
+    dir="$(cd -P "$(dirname "$source")" && pwd)"
+    source="$(readlink "$source")"
+    [[ "$source" != /* ]] && source="${dir}/${source}"
+  done
+
+  cd -P "$(dirname "$source")" && pwd
+}
+
+SCRIPT_DIR="$(resolve_script_dir)"
+
+# Informa al CLI del nombre amigable con el que debe mostrarse en la ayuda.
+export STOCK_COMMAND_NAME="stock"
+
+exec "${SCRIPT_DIR}/app/stockcli.sh" "$@"
