@@ -115,6 +115,19 @@ check_api_key() {
   fi
 }
 
+# Valida que el intervalo de watch sea un entero positivo expresado
+# en segundos. Se acepta, por ejemplo, 5 o 05, pero no 0, texto libre
+# ni valores negativos.
+validate_interval() {
+  local interval="$1"
+
+  if [[ ! "$interval" =~ ^0*[1-9][0-9]*$ ]]; then
+    print_error "El intervalo debe ser un numero entero positivo en segundos."
+    print_warning "Ejemplo valido: ${COMMAND_NAME} watch AAPL 5"
+    return 1
+  fi
+}
+
 # Hace la petición HTTP a Finnhub para obtener la cotización
 # actual del símbolo indicado y devuelve el JSON en bruto.
 fetch_quote() {
@@ -216,6 +229,7 @@ main() {
       local symbol="${2:-}"
       local interval="${3:-5}"
       [[ -z "$symbol" ]] && usage && exit 1
+      validate_interval "$interval" || exit 1
       watch_quote "$symbol" "$interval"
       ;;
     help|--help|-h)
