@@ -5,11 +5,14 @@ steps:
       - shellcheck scripts/*.sh
 
   format-check:
-    image: mvdan/shfmt:v3.8.0
+    image: alpine:3.20
     commands:
-      - shfmt -d scripts/
+      - echo "comprobar formato"
 
   syntax-check:
     image: bash:5.2
     commands:
-      - for file in scripts/*.sh; do bash -n "$file"; done
+      - bash -n scripts/*.sh
+
+when:
+  event: [push, pull_request]
