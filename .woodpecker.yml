@@ -1,18 +1,18 @@
+when:
+  event: pull_request
+
 steps:
-  shellcheck:
+  - name: shellcheck
     image: koalaman/shellcheck:stable
     commands:
-      - shellcheck scripts/*.sh
+      - find . -type f -name "*.sh" -exec shellcheck {} +
 
-  format-check:
-    image: alpine:3.20
+  - name: format-check
+    image: mvdan/shfmt:v3.8.0
     commands:
-      - echo "comprobar formato"
+      - shfmt -d .
 
-  syntax-check:
+  - name: syntax-check
     image: bash:5.2
     commands:
-      - bash -n scripts/*.sh
-
-when:
-  event: [push, pull_request]
+      - find . -type f -name "*.sh" -exec bash -n {} +
