@@ -1,0 +1,15 @@
+steps:
+  shellcheck:
+    image: koalaman/shellcheck:stable
+    commands:
+      - shellcheck scripts/*.sh
+
+  format-check:
+    image: mvdan/shfmt:v3.8.0
+    commands:
+      - shfmt -d scripts/
+
+  syntax-check:
+    image: bash:5.2
+    commands:
+      - for file in scripts/*.sh; do bash -n "$file"; done
