@@ -17,7 +17,7 @@ printf "Instalado: %s -> %s\n" "$TARGET_PATH" "$SOURCE_PATH"
 
 case ":$PATH:" in
   *":$INSTALL_DIR:"*)
-    printf "El directorio %s ya está en tu PATH.\n" "$INSTALL_DIR"
+    printf "El directorio %s ya esta en tu PATH.\n" "$INSTALL_DIR"
     printf "Ya puedes usar: stock help\n"
     ;;
   *)
