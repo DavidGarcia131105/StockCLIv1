@@ -173,3 +173,4 @@ Ejecuta `./install.sh` y asegúrate de que `~/.local/bin` esté incluido en tu `
 - El comando `watch` limpia la pantalla en cada iteración para redibujar la información.
 - Los colores solo se muestran cuando la salida va a una terminal real.
 - La salida depende de la respuesta que devuelva Finnhub para el símbolo consultado.
+-Prueba para PR
